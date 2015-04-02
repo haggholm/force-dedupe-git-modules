@@ -1,6 +1,6 @@
 {
   "name": "force-dedupe-git-modules",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "forcibly dedupes the git-based NPM modules in node_modules",
   "license": "MIT",
   "keywords": [
@@ -18,5 +18,5 @@
   "dependencies": {
     "semver": "~2.2.1"
   },
-  "homepage": "https://github.com/kazuho/force-dedupe-git-modules"
+  "homepage": "https://github.com/haggholm/force-dedupe-git-modules"
 }

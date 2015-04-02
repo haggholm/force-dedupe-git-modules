@@ -75,16 +75,29 @@ function main() {
 			if (semver.lt(packageJsonOfExisting.version, version)) {
 				console.log("raising git-based module " + name + "@" + version + " at " + path + " to " + raisedDir + ", replacing the existing @" + packageJsonOfExisting.version);
 				rmdir_r(raisedDir);
-				fs.renameSync(path, raisedDir);
+				rename(path, raisedDir);
 			} else {
 				console.log("removing git-based module " + name + "@" + version + " at " + path + ", " + name + "@" + packageJsonOfExisting.version + " already exists at " + raisedDir);
 				rmdir_r(path);
 			}
 		} else {
 			console.log("raising module " + name + "@" + version + " at " + path + " to " + raisedDir);
-			fs.renameSync(path, raisedDir);
+			rename(path, raisedDir);
 		}
 	});
+}
+
+function rename(path, raisedDir) {
+	try {
+		fs.renameSync(path, raisedDir)
+	} catch(err) {
+		if (err.name === 'EXDEV') {
+			fs.symlinkSync(fs.readlinkSync(path), raisedDir, 'dir');
+			fs.unlinkSync(path);
+		} else {
+			throw err;
+		}
+	}
 }
 
 main();
